@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The World of Dogs</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brown: #8B5E3C;
+      --tan: #D4A96A;
+      --cream: #FDF6EC;
+      --dark: #2C1A0E;
+      --accent: #E07B39;
+      --light-tan: #F5E6CC;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--cream);
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--dark);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+    }
+    nav .logo {
+      color: var(--tan);
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav ul a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--tan); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--brown) 0%, var(--dark) 100%);
+      color: white;
+      text-align: center;
+      padding: 6rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '🐾';
+      font-size: 18rem;
+      position: absolute;
+      right: -2rem;
+      top: -2rem;
+      opacity: 0.07;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      color: var(--tan);
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn:hover { background: #c9662a; transform: translateY(-2px); }
+
+    /* SECTIONS */
+    section { padding: 5rem 1rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--brown);
+      margin-bottom: 0.5rem;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 3rem;
+    }
+
+    /* FACTS */
+    #facts { background: var(--light-tan); }
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .fact-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      transition: transform 0.2s;
+    }
+    .fact-card:hover { transform: translateY(-4px); }
+    .fact-card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .fact-card h3 { color: var(--brown); margin-bottom: 0.5rem; }
+    .fact-card p { font-size: 0.95rem; color: #555; }
+
+    /* BREEDS */
+    #breeds { background: var(--cream); }
+    .breeds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .breed-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .breed-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    }
+    .breed-emoji {
+      background: var(--light-tan);
+      text-align: center;
+      font-size: 5rem;
+      padding: 2rem;
+    }
+    .breed-info { padding: 1.5rem; }
+    .breed-info h3 { color: var(--brown); font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .breed-info .tag {
+      display: inline-block;
+      background: var(--light-tan);
+      color: var(--brown);
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      margin: 0.2rem 0.2rem 0.6rem 0;
+    }
+    .breed-info p { font-size: 0.92rem; color: #555; }
+
+    /* CARE */
+    #care { background: var(--light-tan); }
+    .care-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .care-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .care-item .icon { font-size: 2rem; flex-shrink: 0; }
+    .care-item h4 { color: var(--brown); margin-bottom: 0.3rem; }
+    .care-item p { font-size: 0.9rem; color: #555; }
+
+    /* QUOTE */
+    .quote-section {
+      background: var(--brown);
+      color: white;
+      text-align: center;
+      padding: 5rem 1rem;
+    }
+    .quote-section blockquote {
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      font-style: italic;
+      max-width: 750px;
+      margin: 0 auto 1rem;
+      line-height: 1.5;
+    }
+    .quote-section cite { opacity: 0.7; font-size: 0.95rem; }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+    footer span { color: var(--tan); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">🐶 DogWorld</div>
+    <ul>
+      <li><a href="#facts">Facts</a></li>
+      <li><a href="#breeds">Breeds</a></li>
+      <li><a href="#care">Care</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <h1>Man's Best Friend</h1>
+    <p>Discover the wonderful world of dogs — loyal companions, tireless workers, and endless sources of joy.</p>
+    <a href="#facts" class="btn">Explore Dogs</a>
+  </header>
+
+  <!-- FACTS -->
+  <section id="facts">
+    <div class="container">
+      <h2 class="section-title">Fascinating Dog Facts</h2>
+      <p class="section-subtitle">Things you might not know about our four-legged friends</p>
+      <div class="facts-grid">
+        <div class="fact-card">
+          <div class="icon">👃</div>
+          <h3>Super Sniffer</h3>
+          <p>A dog's sense of smell is 10,000–100,000 times more powerful than a human's, making them natural detectives.</p>
+        </div>
+        <div class="fact-card">
+          <div class="icon">🧠</div>
+          <h3>Smart as a Toddler</h3>
+          <p>The average dog is as intelligent as a 2–2.5 year old child and can learn over 150 words and gestures.</p>
+        </div>
+        <div class="fact-card">
+          <div class="icon">❤️</div>
+          <h3>Loyal by Nature</h3>
+          <p>Dogs have co-evolved with humans for over 15,000 years, making them uniquely attuned to our emotions.</p>
+        </div>
+        <div class="fact-card">
+          <div class="icon">😴</div>
+          <h3>Dream Big</h3>
+          <p>Dogs dream just like humans do — their sleep cycles include REM phases where they process memories and experiences.</p>
+        </div>
+        <div class="fact-card">
+          <div class="icon">🌍</div>
+          <h3>340+ Breeds</h3>
+          <p>There are over 340 officially recognized dog breeds worldwide, from the tiny Chihuahua to the giant Great Dane.</p>
+        </div>
+        <div class="fact-card">
+          <div class="icon">💗</div>
+          <h3>Heart Health</h3>
+          <p>Studies show that dog owners have lower blood pressure, reduced stress, and a decreased risk of heart disease.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BREEDS -->
+  <section id="breeds">
+    <div class="container">
+      <h2 class="section-title">Popular Breeds</h2>
+      <p class="section-subtitle">A look at some of the world's most beloved dog breeds</p>
+      <div class="breeds-grid">
+        <div class="breed-card">
+          <div class="breed-emoji">🦮</div>
+          <div class="breed-info">
+            <h3>Golden Retriever</h3>
+            <span class="tag">Family-Friendly</span>
+            <span class="tag">High Energy</span>
+            <p>Gentle, loyal, and incredibly affectionate, Golden Retrievers are one of the most popular family dogs in the world.</p>
+          </div>
+        </div>
+        <div class="breed-card">
+          <div class="breed-emoji">🐕‍🦺</div>
+          <div class="breed-info">
+            <h3>German Shepherd</h3>
+            <span class="tag">Working Dog</span>
+            <span class="tag">Intelligent</span>
+            <p>Known for their courage and versatility, German Shepherds excel in police, military, and service roles.</p>
+          </div>
+        </div>
+        <div class="breed-card">
+          <div class="breed-emoji">🐩</div>
+          <div class="breed-info">
+            <h3>Poodle</h3>
+            <span class="tag">Hypoallergenic</span>
+            <span class="tag">Elegant</span>
+            <p>Highly intelligent and graceful, Poodles come in three sizes and are prized for their low-shedding coats.</p>
+          </div>
+        </div>
+        <div class="breed-card">
+          <div class="breed-emoji">🐶</div>
+          <div class="breed-info">
+            <h3>Labrador Retriever</h3>
+            <span class="tag">Friendly</span>
+            <span class="tag">Energetic</span>
+            <p>America's most popular breed for over 30 years, Labs are outgoing, friendly, and endlessly enthusiastic.</p>
+          </div>
+        </div>
+        <div class="breed-card">
+          <div class="breed-emoji">🐕</div>
+          <div class="breed-info">
+            <h3>French Bulldog</h3>
+            <span class="tag">Compact</span>
+            <span class="tag">Playful</span>
+            <p>Charming and adaptable, Frenchies are perfect city companions with their low exercise needs and big personalities.</p>
+          </div>
+        </div>
+        <div class="breed-card">
+          <div class="breed-emoji">🐾</div>
+          <div class="breed-info">
+            <h3>Border Collie</h3>
+            <span class="tag">Herding</span>
+            <span class="tag">Genius-Level</span>
+            <p>Widely considered the most intelligent dog breed, Border Collies thrive on challenges and have boundless energy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARE -->
+  <section id="care">
+    <div class="container">
+      <h2 class="section-title">Caring for Your Dog</h2>
+      <p class="section-subtitle">Essential tips to keep your pup happy and healthy</p>
+      <div class="care-list">
+        <div class="care-item">
+          <div class="icon">🥩</div>
+          <div>
+            <h4>Balanced Nutrition</h4>
+            <p>Feed age-appropriate, high-quality food. Avoid table scraps and foods toxic to dogs like onions, grapes, and chocolate.</p>
+          </div>
+        </div>
+        <div class="care-item">
+          <div class="icon">🏃</div>
+          <div>
+            <h4>Daily Exercise</h4>
+            <p>Most dogs need at least 30–60 minutes of physical activity daily to stay fit and mentally stimulated.</p>
+          </div>
+        </div>
+        <div class="care-item">
+          <div class="icon">🛁</div>
+          <div>
+            <h4>Regular Grooming</h4>
+            <p>Brush your dog's coat, trim nails, clean ears, and bathe them regularly to prevent skin issues and matting.</p>
+          </div>
+        </div>
+        <div class="care-item">
+          <div class="icon">🩺</div>
+          <div>
+            <h4>Vet Checkups</h4>
+            <p>Schedule annual wellness exams, keep vaccinations up to date, and use flea, tick, and heartworm prevention.</p>
+          </div>
+        </div>
+        <div class="care-item">
+          <div class="icon">🎓</div>
+          <div>
+            <h4>Training & Socialization</h4>
+            <p>Start training early using positive reinforcement. Expose your pup to people, pets, and environments to build confidence.</p>
+          </div>
+        </div>
+        <div class="care-item">
+          <div class="icon">💧</div>
+          <div>
+            <h4>Fresh Water Always</h4>
+            <p>Ensure your dog has access to clean, fresh water at all times — especially after exercise and on hot days.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="quote-section">
+    <blockquote>"The world would be a nicer place if everyone had the ability to love as unconditionally as a dog."</blockquote>
+    <cite>— M.K. Clinton</cite>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Made with <span>♥</span> for dog lovers everywhere &nbsp;·&nbsp; 🐾 DogWorld 2026</p>
+  </footer>
+
+</body>
+</html>
